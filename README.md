@@ -36,8 +36,8 @@
 ## 💾 Installation og brug
 
 1. **Importer koden:**
-   - Gå til [MakeCode](https://makecode.microbit.org/)
-   - Indsæt koden fra `microbit-code/FINAL_skyggekode.js`
+   - Gå til [MakeCode](https://makecode.microbit.org/S29995-80729-00944-81507)
+   - Indsæt koden fra `microbit-code/FINAL_skyggekode.js`, hvis den ikke automatisk bliver indlæst
    - Overfør til Micro:bit via USB
 
 2. **Udskriv elevmaterialer:**
