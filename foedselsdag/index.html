@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OPERATION: FØDSELSDAGSKODEN</title>
+  <title>OPERATION: NONKONFIRMATION</title>
   <style>
     :root {
       --green: #00ff41;
@@ -391,13 +391,14 @@
 <canvas id="matrix"></canvas>
 
 <div class="container">
-  <div class="stamp">FORTROLIGT // KLASSIFICERET</div>
+  <div class="stamp">SYSTEMET AFVIST // IKKE-KONFIRMERET</div>
 
-  <h1>⚡ OPERATION:<br>FØDSELSDAGSKODEN ⚡</h1>
-  <p class="subtitle">AGENT-BRIEFING // ADGANG: KUN JUBILAREN</p>
+  <h1>OPERATION:<br>NONKONFIRMATION</h1>
+  <p class="subtitle">AGENT JACOB // ADGANG: KUN JUBILAREN</p>
 
   <div class="terminal">
-    <p class="prompt">Tillykke med fødselsdagen, agent.</p>
+    <p class="prompt">Tillykke med nonkonfirmationen, Jacob.</p>
+    <p class="prompt">Du valgte at bryde med systemet. Det kræver mod.</p>
     <p class="prompt">Din mission, hvis du vælger at acceptere den:</p>
     <p class="prompt">Løs de 4 opgaver. Saml fragmenterne.</p>
     <p class="prompt">Indtast den fulde kode for at frigive din belønning.</p>
@@ -559,10 +560,10 @@
 <!-- Victory overlay -->
 <div id="victory">
   <div class="stamp" style="transform:rotate(2deg)">MISSION FULDFØRT</div>
-  <h2>🎉 TILLYKKE, AGENT! 🎉</h2>
+  <h2>TILLYKKE, AGENT JACOB</h2>
   <div class="money">💸</div>
-  <p>Du har knækket koden og bevist dit værd.<br>Din belønning venter — tjek konvolutten (eller MobilePay)!</p>
-  <p style="color:var(--green);font-size:1.1rem;margin-top:0.5rem">Rigtig god fødselsdag! 🥳</p>
+  <p>Du har knækket koden og bevist dit værd.<br>Systemet kunne ikke holde dig — din belønning venter.</p>
+  <p style="color:var(--green);font-size:1.1rem;margin-top:0.5rem">Tillykke med nonkonfirmationen!</p>
   <button class="close-btn" onclick="document.getElementById('victory').classList.remove('show')">[ LUK TERMINAL ]</button>
 </div>
 
