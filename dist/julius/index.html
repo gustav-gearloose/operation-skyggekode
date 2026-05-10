@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OPERATION: KONFIRMATION</title>
+  <style>
+    :root {
+      --green: #00ff41;
+      --dim-green: #003b00;
+      --bg: #0a0a0a;
+      --accent: #ff0033;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 1rem 3rem;
+      overflow-x: hidden;
+    }
+
+    canvas#matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+      padding-top: 2rem;
+    }
+
+    .stamp {
+      border: 3px solid var(--accent);
+      color: var(--accent);
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      transform: rotate(-3deg);
+      margin-bottom: 1.5rem;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-size: clamp(1.2rem, 5vw, 2rem);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 0 20px var(--green);
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: #555;
+      letter-spacing: 0.2em;
+      margin-bottom: 2rem;
+    }
+
+    .terminal {
+      background: #0d0d0d;
+      border: 1px solid #1a3a1a;
+      border-radius: 4px;
+      padding: 1.2rem 1.4rem;
+      text-align: left;
+      margin-bottom: 1.5rem;
+    }
+
+    .terminal .prompt::before {
+      content: '> ';
+      color: #007a00;
+    }
+
+    .terminal p {
+      line-height: 1.9;
+      font-size: 0.9rem;
+    }
+
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .step {
+      background: #0d0d0d;
+      border: 1px solid #1a3a1a;
+      border-radius: 4px;
+      text-align: left;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .step.completed { border-color: #006600; }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      min-height: 56px;
+    }
+
+    .step-header:active { background: #111; }
+
+    .step-num {
+      background: var(--dim-green);
+      color: var(--green);
+      border-radius: 2px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .step-title { flex: 1; }
+
+    .step-status {
+      font-size: 0.8rem;
+      color: #444;
+      flex-shrink: 0;
+    }
+    .step-status.done { color: var(--green); }
+
+    .step-body {
+      display: none;
+      padding: 0 1.2rem 1.2rem;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: #aaa;
+    }
+
+    .step.open .step-body { display: block; }
+
+    .clue-box {
+      background: var(--dim-green);
+      border: 1px solid var(--green);
+      border-radius: 3px;
+      padding: 0.8rem 1rem;
+      margin: 0.8rem 0;
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      color: var(--green);
+      text-align: center;
+      word-break: break-all;
+    }
+
+    .highlight-box {
+      background: #0d0d0d;
+      border: 1px dashed #333;
+      border-radius: 3px;
+      padding: 0.7rem 1rem;
+      margin: 0.7rem 0;
+      color: var(--green);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .morse-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+      gap: 0.35rem;
+      margin: 0.7rem 0;
+      font-size: 0.78rem;
+    }
+    .morse-grid span {
+      background: #111;
+      border: 1px solid #1a3a1a;
+      border-radius: 2px;
+      padding: 0.3rem 0.4rem;
+      text-align: center;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    .answer-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .answer-input {
+      width: 3rem;
+      height: 3rem;
+      background: #0d0d0d;
+      border: 1px solid #1a3a1a;
+      border-radius: 4px;
+      color: var(--green);
+      font-family: inherit;
+      font-size: 1.3rem;
+      text-align: center;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      flex-shrink: 0;
+    }
+    .answer-input:focus { border-color: var(--green); }
+
+    select.answer-input {
+      width: auto;
+      padding: 0 0.6rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      background: transparent;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      padding: 0.7rem 1.4rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+      border-radius: 3px;
+    }
+    .submit-btn:active { background: var(--green); color: #000; }
+
+    .feedback {
+      font-size: 0.82rem;
+      margin-top: 0.5rem;
+      min-height: 1.2em;
+    }
+
+    .code-section { margin-top: 0.5rem; }
+
+    .code-section h2 {
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+      color: #aaa;
+    }
+
+    .code-inputs {
+      display: flex;
+      gap: 0.7rem;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .code-inputs input {
+      width: 3.5rem;
+      height: 4rem;
+      background: #0d0d0d;
+      border: 1px solid #1a3a1a;
+      border-radius: 4px;
+      color: var(--green);
+      font-family: inherit;
+      font-size: 1.6rem;
+      text-align: center;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .code-inputs input:focus { border-color: var(--green); }
+
+    .big-btn {
+      background: transparent;
+      border: 2px solid var(--green);
+      color: var(--green);
+      font-family: inherit;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      padding: 0.9rem 2.2rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      min-height: 52px;
+      border-radius: 3px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .big-btn:active { background: var(--green); color: #000; }
+
+    #result {
+      margin-top: 1.2rem;
+      font-size: 1rem;
+      min-height: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    #result.success { color: var(--green); text-shadow: 0 0 15px var(--green); }
+    #result.fail { color: var(--accent); }
+
+    #victory {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.97);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      gap: 1.2rem;
+    }
+    #victory.show { display: flex; }
+
+    #victory h2 {
+      font-size: clamp(1.6rem, 7vw, 3rem);
+      color: var(--green);
+      text-shadow: 0 0 40px var(--green);
+      letter-spacing: 0.2em;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
+    #victory p {
+      font-size: 1rem;
+      color: #aaa;
+      max-width: 420px;
+      line-height: 1.8;
+    }
+    #victory .money { font-size: clamp(2.5rem, 10vw, 5rem); }
+    #victory .close-btn {
+      background: transparent;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      padding: 0.8rem 2rem;
+      cursor: pointer;
+      min-height: 48px;
+      border-radius: 3px;
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.65rem;
+      color: #2a2a2a;
+      letter-spacing: 0.2em;
+      text-align: center;
+    }
+
+    .muted { color: #555; font-size: 0.78rem; }
+
+    .res-link {
+      color: var(--green);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      padding: 0.15rem 0;
+      border-bottom: 1px solid #1a3a1a;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .res-link:hover { color: #fff; border-color: var(--green); }
+    strong.g { color: var(--green); }
+  </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+  <div class="stamp">KLASSIFICERET // KUN FOR AGENTEN</div>
+
+  <h1>OPERATION: KONFIRMATION</h1>
+  <p class="subtitle">AGENT JULIUS // ADGANG: KUN JUBILAREN</p>
+
+  <div class="terminal">
+    <p class="prompt">Tillykke med konfirmationen, Julius.</p>
+    <p class="prompt">Du er nu officielt en del af systemet. Men kan du bevise dit værd?</p>
+    <p class="prompt">Din mission, hvis du vælger at acceptere den:</p>
+    <p class="prompt">Løs de 4 opgaver. Saml fragmenterne.</p>
+    <p class="prompt">Indtast den fulde kode for at frigive din belønning.</p>
+    <p class="prompt">Der er ingen hints. Brug hjernen. <span class="blink">▋</span></p>
+  </div>
+
+  <div class="steps">
+    <!-- STEP 1 -->
+    <div class="step" id="step1">
+      <div class="step-header" onclick="toggleStep('step1')">
+        <span class="step-num">01</span>
+        <span class="step-title">KRYPTERET SIGNAL</span>
+        <span class="step-status" id="status1">[ LÅST ]</span>
+      </div>
+      <div class="step-body">
+        <p>En agentrapport er kommet ind i hexadecimalt format. Oversæt dette til et bogstav via ASCII-tabellen nedenfor.</p>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0x4A</div>
+        <div class="highlight-box"><strong class="g">ASCII hex-tabel (udvalg):</strong><br>
+          0x41=A  0x42=B  0x43=C  0x44=D  0x45=E<br>
+          0x46=F  0x47=G  0x48=H  0x49=I  0x4A=?<br>
+          0x4B=K  0x4C=L  0x4D=M  0x4E=N  0x4F=O<br>
+          0x50=P  0x51=Q  0x52=R  0x53=S  0x54=T
+        </div>
+        <p class="muted">Hex-tal: 0x41 er A (65 i decimal), 0x42 er B (66), osv. Find 0x4A.</p>
+        <div class="clue-box" id="clue1" style="display:none">F R A G M E N T &nbsp; 1 : &nbsp; <strong id="clue1val">J</strong></div>
+        <div class="answer-row">
+          <input class="answer-input" id="answer1" maxlength="1" placeholder="?" autocomplete="off" />
+          <button class="submit-btn" onclick="checkAnswer(1, event)">Tjek</button>
+        </div>
+        <p class="feedback" id="feedback1"></p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+      <div class="step-header" onclick="toggleStep('step2')">
+        <span class="step-num">02</span>
+        <span class="step-title">MORSEKODEN SYNGER</span>
+        <span class="step-status" id="status2">[ LÅST ]</span>
+      </div>
+      <div class="step-body">
+        <p>Agenternes radio opfanger dette signal. Dekodér det til ét bogstav.</p>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">· · –</div>
+        <div class="morse-grid">
+          <span>A · –</span><span>B – · · ·</span><span>C – · – ·</span><span>D – · ·</span>
+          <span>E ·</span><span>F · · – ·</span><span>G – – ·</span><span>H · · · ·</span>
+          <span>I · ·</span><span>J · – – –</span><span>K – · –</span><span>L · – · ·</span>
+          <span>M – –</span><span>N – ·</span><span>O – – –</span><span>P · – – ·</span>
+          <span>Q – – · –</span><span>R · – ·</span><span>S · · ·</span><span>T –</span>
+          <span>U · · –</span><span>V · · · –</span><span>W · – –</span><span>X – · · –</span>
+          <span>Y – · – –</span><span>Z – – · ·</span>
+        </div>
+        <div class="clue-box" id="clue2" style="display:none">F R A G M E N T &nbsp; 2 : &nbsp; <strong id="clue2val">U</strong></div>
+        <div class="answer-row">
+          <input class="answer-input" id="answer2" maxlength="1" placeholder="?" autocomplete="off" />
+          <button class="submit-btn" onclick="checkAnswer(2, event)">Tjek</button>
+        </div>
+        <p class="feedback" id="feedback2"></p>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+      <div class="step-header" onclick="toggleStep('step3')">
+        <span class="step-num">03</span>
+        <span class="step-title">PRIMTALSTESTEN</span>
+        <span class="step-status" id="status3">[ LÅST ]</span>
+      </div>
+      <div class="step-body">
+        <p>Systemet afventer verifikation af tre tal. Afgør for hvert tal: er det et primtal?</p>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">41  ·  49  ·  53</div>
+        <p class="muted">Primtal: kan kun deles med 1 og sig selv. Tæl dine JA-svar. 1=A, 2=B, 3=C</p>
+        <div class="clue-box" id="clue3" style="display:none">F R A G M E N T &nbsp; 3 : &nbsp; <strong id="clue3val">B</strong></div>
+        <div class="answer-row">
+          <select class="answer-input" id="answer3"><option value="">Vælg...</option><option value="1">1 JA → A</option><option value="2">2 JA → B</option><option value="3">3 JA → C</option></select>
+          <button class="submit-btn" onclick="checkAnswer(3, event)">Tjek</button>
+        </div>
+        <p class="feedback" id="feedback3"></p>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" id="step4">
+      <div class="step-header" onclick="toggleStep('step4')">
+        <span class="step-num">04</span>
+        <span class="step-title">BINÆR IDENTIFIKATION</span>
+        <span class="step-status" id="status4">[ LÅST ]</span>
+      </div>
+      <div class="step-body">
+        <p>Den krypterede besked er gemt i binær kode. Oversæt til et bogstav.</p>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0 1 0 0 1 1 0 0</div>
+        <p class="muted">Hver bit har en værdi: 128·64·32·16·8·4·2·1. Læg sammen hvor der står 1. A=65, B=66, C=67…</p>
+        <div class="clue-box" id="clue4" style="display:none">F R A G M E N T &nbsp; 4 : &nbsp; <strong id="clue4val">L</strong></div>
+        <div class="answer-row">
+          <input class="answer-input" id="answer4" maxlength="1" placeholder="?" autocomplete="off" />
+          <button class="submit-btn" onclick="checkAnswer(4, event)">Tjek</button>
+        </div>
+        <p class="feedback" id="feedback4"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final code -->
+  <div class="code-section">
+    <h2>[ INDTAST DEN FULDE KODE ]</h2>
+    <div class="code-inputs">
+      <input id="c1" maxlength="1" placeholder="?" autocomplete="off" />
+      <input id="c2" maxlength="1" placeholder="?" autocomplete="off" />
+      <input id="c3" maxlength="1" placeholder="?" autocomplete="off" />
+      <input id="c4" maxlength="1" placeholder="?" autocomplete="off" />
+    </div>
+    <button class="big-btn" onclick="checkCode()">⚡ AKTIVÉR KODEN ⚡</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- Resources -->
+  <div class="terminal" style="margin-top:1.5rem;text-align:left">
+    <p class="prompt" style="color:var(--green);margin-bottom:0.6rem">AGENTVÆRKTØJER // TILLADTE RESSOURCER</p>
+    <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.4rem">
+      <a class="res-link" href="https://www.rapidtables.com/code/text/ascii-table.html" target="_blank" rel="noopener">Fuld ASCII-tabel (hex + decimal + bogstav)</a>
+      <a class="res-link" href="https://morsecode.world/international/translator.html" target="_blank" rel="noopener">Morse-oversætter (lyd + tekst)</a>
+      <a class="res-link" href="https://www.rapidtables.com/convert/number/binary-to-decimal.html" target="_blank" rel="noopener">Binær → Decimal konverter</a>
+      <a class="res-link" href="https://www.dcode.fr/prime-numbers-checker" target="_blank" rel="noopener">Primtals-tjekker</a>
+    </div>
+  </div>
+
+  <footer>OPERATION KONFIRMATION // KLASSIFICERET // AGENTUR FOR DIGITAL INFILTRATION</footer>
+</div>
+
+<!-- Victory overlay -->
+<div id="victory">
+  <div class="stamp" style="transform:rotate(2deg)">MISSION FULDFØRT</div>
+  <h2>TILLYKKE, AGENT JULIUS</h2>
+  <div class="money">💸</div>
+  <p>Du har knækket koden og bevist dit værd.
+Missionen er fuldført — din belønning venter.</p>
+  <p style="color:var(--green);font-size:1.1rem;margin-top:0.5rem">Tillykke med konfirmationen!</p>
+  <button class="close-btn" onclick="document.getElementById('victory').classList.remove('show')">[ LUK TERMINAL ]</button>
+</div>
+
+<script>
+  // Matrix rain
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  let cols, drops;
+  function initMatrix() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols = Math.floor(canvas.width / 18);
+    drops = Array(cols).fill(1);
+  }
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = '14px Courier New';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
+    drops.forEach((y, i) => {
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(c, i * 18, y * 18);
+      if (y * 18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    });
+  }
+  initMatrix();
+  window.addEventListener('resize', initMatrix);
+  setInterval(drawMatrix, 50);
+
+  // Step toggle
+  function toggleStep(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  // Puzzle logic
+  
+  const ANSWERS = ['J', 'U', '2', 'L'];
+  const SUCCESS_MSGS = [
+      'Korrekt! 0x4A = 74 = J. Fragment 1 låst op.',
+      'Korrekt! · · – = U. Fragment 2 låst op.',
+      'Korrekt! 41 er primtal, 49=7×7, 53 er primtal. 2 JA = B.',
+      'Korrekt! 01001100 = 64+8+4 = 76 = L. Fragment 4 låst op.'
+  ];
+  const FAIL_MSGS = [
+      'Forkert. Tjek ASCII-tabellen igen.',
+      'Forkert. Find signalet i morse-tabellen.',
+      'Forkert. Del hvert tal systematisk.',
+      'Forkert. Læg bit-værdierne sammen igen.'
+  ];
+  const CORRECT_CODE = 'JUBL';
+  const CODE_LENGTH = 4;
+
+  function checkAnswer(num, e) {
+    e.stopPropagation();
+    const input = document.getElementById('answer' + num);
+    const val = input.value.toUpperCase().trim();
+    const fb = document.getElementById('feedback' + num);
+    if (val === ANSWERS[num - 1]) {
+      document.getElementById('clue' + num).style.display = 'block';
+      fb.style.color = 'var(--green)';
+      fb.textContent = '✓ ' + SUCCESS_MSGS[num - 1];
+      document.getElementById('step' + num).classList.add('completed', 'open');
+      const s = document.getElementById('status' + num);
+      s.textContent = '[ ✓ LØST ]';
+      s.classList.add('done');
+    } else {
+      fb.style.color = 'var(--accent)';
+      fb.textContent = '✗ ' + FAIL_MSGS[num - 1];
+    }
+  }
+
+  function checkCode() {
+    const code = Array.from({length: CODE_LENGTH}, (_, i) =>
+      document.getElementById('c' + (i+1)).value.toUpperCase().trim()
+    ).join('');
+    const result = document.getElementById('result');
+    if (code === CORRECT_CODE) {
+      result.textContent = '';
+      document.getElementById('victory').classList.add('show');
+    } else if (code.length < CODE_LENGTH) {
+      result.className = 'fail';
+      result.textContent = '⚠ Koden er ufuldstændig. ' + CODE_LENGTH + ' tegn kræves.';
+    } else {
+      result.className = 'fail';
+      result.textContent = '✗ FORKERT KODE. ADGANG NÆGTET.';
+    }
+  }
+
+  document.querySelectorAll('.code-inputs input').forEach((inp, i, all) => {
+    inp.addEventListener('input', () => {
+      if (inp.value && i < all.length - 1) all[i+1].focus();
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !inp.value && i > 0) all[i-1].focus();
+      if (e.key === 'Enter') checkCode();
+    });
+  });
+
+  document.querySelectorAll('.step-body').forEach(el => {
+    el.addEventListener('click', e => e.stopPropagation());
+    el.addEventListener('touchend', e => e.stopPropagation());
+  });
+</script>
+</body>
+</html>
