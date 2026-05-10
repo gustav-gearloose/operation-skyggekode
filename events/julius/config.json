@@ -14,17 +14,17 @@
   },
   "intro": [
     "Tillykke med konfirmationen, Julius.",
-    "Du er nu en del af de voksnes rækker. Men kan du bevise dit værd?",
-    "Din mission, hvis du vælger at acceptere den:",
-    "Løs de 4 opgaver. Saml fragmenterne.",
-    "Indtast den fulde kode for at frigive din belønning.",
-    "Der er ingen hints. Brug hjernen."
+    "Du er nu en del af de voksnes rækker. Men det kommer ikke gratis.",
+    "Din mission, hvis du tør tage den:",
+    "Løs 4 opgaver. Saml fragmenterne. Knæk koden.",
+    "Indtast den fulde kode og frigiv din belønning.",
+    "Ingen hints. Kun din hjerne."
   ],
   "puzzles": [
     {
       "id": "hex",
       "title": "KRYPTERET SIGNAL",
-      "description": "En agentrapport er kommet ind i hexadecimalt format. Oversæt dette til et bogstav via ASCII-tabellen nedenfor.",
+      "description": "En agentrapport er kommet ind i hexadecimalt format. Brug ASCII-tabellen nedenfor til at oversætte.",
       "clue": "0x4A",
       "answer": "J",
       "hint": "Hex-tal: 0x41 er A (65 i decimal), 0x42 er B (66), osv. Find 0x4A.",
@@ -46,7 +46,7 @@
     {
       "id": "prime",
       "title": "PRIMTALSTESTEN",
-      "description": "Systemet afventer verifikation af tre tal. Afgør for hvert tal: er det et primtal?",
+      "description": "Tre tal venter på verifikation. Er de primtal?",
       "clue": "41  ·  49  ·  53",
       "answer": "2",
       "answerType": "select",
@@ -59,7 +59,7 @@
     {
       "id": "binary",
       "title": "BINÆR IDENTIFIKATION",
-      "description": "Den krypterede besked er gemt i binær kode. Oversæt til et bogstav.",
+      "description": "Beskeden er gemt i binær. Oversæt til et bogstav.",
       "clue": "0 1 0 0 1 1 0 0",
       "answer": "L",
       "hint": "Hver bit har en værdi: 128·64·32·16·8·4·2·1. Læg sammen hvor der står 1. A=65, B=66, C=67…",
@@ -71,7 +71,7 @@
   "victory": {
     "title": "TILLYKKE, AGENT JULIUS",
     "emoji": "💸",
-    "message": "Du har knækket koden og bevist dit værd.\nMissionen er fuldført — din belønning venter.",
+    "message": "Koden er knækket. Du klarede det.\nDin belønning venter.",
     "congratulation": "Tillykke med konfirmationen!",
     "stamp": "MISSION FULDFØRT"
   },

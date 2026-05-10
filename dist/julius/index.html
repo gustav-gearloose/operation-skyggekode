@@ -393,11 +393,11 @@
 
   <div class="terminal">
     <p class="prompt">Tillykke med konfirmationen, Julius.</p>
-    <p class="prompt">Du er nu en del af de voksnes rækker. Men kan du bevise dit værd?</p>
-    <p class="prompt">Din mission, hvis du vælger at acceptere den:</p>
-    <p class="prompt">Løs de 4 opgaver. Saml fragmenterne.</p>
-    <p class="prompt">Indtast den fulde kode for at frigive din belønning.</p>
-    <p class="prompt">Der er ingen hints. Brug hjernen. <span class="blink">▋</span></p>
+    <p class="prompt">Du er nu en del af de voksnes rækker. Men det kommer ikke gratis.</p>
+    <p class="prompt">Din mission, hvis du tør tage den:</p>
+    <p class="prompt">Løs 4 opgaver. Saml fragmenterne. Knæk koden.</p>
+    <p class="prompt">Indtast den fulde kode og frigiv din belønning.</p>
+    <p class="prompt">Ingen hints. Kun din hjerne. <span class="blink">▋</span></p>
   </div>
 
   <div class="steps">
@@ -409,7 +409,7 @@
         <span class="step-status" id="status1">[ LÅST ]</span>
       </div>
       <div class="step-body">
-        <p>En agentrapport er kommet ind i hexadecimalt format. Oversæt dette til et bogstav via ASCII-tabellen nedenfor.</p>
+        <p>En agentrapport er kommet ind i hexadecimalt format. Brug ASCII-tabellen nedenfor til at oversætte.</p>
         <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0x4A</div>
         <div class="highlight-box"><strong class="g">ASCII hex-tabel (udvalg):</strong><br>
           0x41=A  0x42=B  0x43=C  0x44=D  0x45=E<br>
@@ -463,7 +463,7 @@
         <span class="step-status" id="status3">[ LÅST ]</span>
       </div>
       <div class="step-body">
-        <p>Systemet afventer verifikation af tre tal. Afgør for hvert tal: er det et primtal?</p>
+        <p>Tre tal venter på verifikation. Er de primtal?</p>
         <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">41  ·  49  ·  53</div>
         <p class="muted">Primtal: kan kun deles med 1 og sig selv. Tæl dine JA-svar. 1=A, 2=B, 3=C</p>
         <div class="clue-box" id="clue3" style="display:none">F R A G M E N T &nbsp; 3 : &nbsp; <strong id="clue3val">B</strong></div>
@@ -483,7 +483,7 @@
         <span class="step-status" id="status4">[ LÅST ]</span>
       </div>
       <div class="step-body">
-        <p>Den krypterede besked er gemt i binær kode. Oversæt til et bogstav.</p>
+        <p>Beskeden er gemt i binær. Oversæt til et bogstav.</p>
         <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0 1 0 0 1 1 0 0</div>
         <p class="muted">Hver bit har en værdi: 128·64·32·16·8·4·2·1. Læg sammen hvor der står 1. A=65, B=66, C=67…</p>
         <div class="clue-box" id="clue4" style="display:none">F R A G M E N T &nbsp; 4 : &nbsp; <strong id="clue4val">L</strong></div>
@@ -528,8 +528,8 @@
   <div class="stamp" style="transform:rotate(2deg)">MISSION FULDFØRT</div>
   <h2>TILLYKKE, AGENT JULIUS</h2>
   <div class="money">💸</div>
-  <p>Du har knækket koden og bevist dit værd.
-Missionen er fuldført — din belønning venter.</p>
+  <p>Koden er knækket. Du klarede det.
+Din belønning venter.</p>
   <p style="color:var(--green);font-size:1.1rem;margin-top:0.5rem">Tillykke med konfirmationen!</p>
   <button class="close-btn" onclick="document.getElementById('victory').classList.remove('show')">[ LUK TERMINAL ]</button>
 </div>
