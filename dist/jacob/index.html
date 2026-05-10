@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OPERATION: KONFIRMATION</title>
+  <title>OPERATION: NONKONFIRMATION</title>
   <script
     src="https://rybbit.gearloose.dk/api/script.js"
     data-site-id="8"
@@ -386,14 +386,14 @@
 <canvas id="matrix"></canvas>
 
 <div class="container">
-  <div class="stamp">KLASSIFICERET // KUN FOR AGENTEN</div>
+  <div class="stamp">SYSTEMET AFVIST // IKKE-KONFIRMERET</div>
 
-  <h1>OPERATION: KONFIRMATION</h1>
-  <p class="subtitle">AGENT JULIUS // ADGANG: KUN JUBILAREN</p>
+  <h1>OPERATION: NONKONFIRMATION</h1>
+  <p class="subtitle">AGENT JACOB // ADGANG: KUN JUBILAREN</p>
 
   <div class="terminal">
-    <p class="prompt">Tillykke med konfirmationen, Julius.</p>
-    <p class="prompt">Du er nu officielt en del af systemet. Men kan du bevise dit værd?</p>
+    <p class="prompt">Tillykke med nonkonfirmationen, Jacob.</p>
+    <p class="prompt">Du valgte at bryde med systemet. Det kræver mod.</p>
     <p class="prompt">Din mission, hvis du vælger at acceptere den:</p>
     <p class="prompt">Løs de 4 opgaver. Saml fragmenterne.</p>
     <p class="prompt">Indtast den fulde kode for at frigive din belønning.</p>
@@ -410,15 +410,15 @@
       </div>
       <div class="step-body">
         <p>En agentrapport er kommet ind i hexadecimalt format. Oversæt dette til et bogstav via ASCII-tabellen nedenfor.</p>
-        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0x4A</div>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0x47</div>
         <div class="highlight-box"><strong class="g">ASCII hex-tabel (udvalg):</strong><br>
           0x41=A  0x42=B  0x43=C  0x44=D  0x45=E<br>
-          0x46=F  0x47=G  0x48=H  0x49=I  0x4A=?<br>
+          0x46=F  0x47=?  0x48=H  0x49=I  0x4A=J<br>
           0x4B=K  0x4C=L  0x4D=M  0x4E=N  0x4F=O<br>
           0x50=P  0x51=Q  0x52=R  0x53=S  0x54=T
         </div>
-        <p class="muted">Hex-tal: 0x41 er A (65 i decimal), 0x42 er B (66), osv. Find 0x4A.</p>
-        <div class="clue-box" id="clue1" style="display:none">F R A G M E N T &nbsp; 1 : &nbsp; <strong id="clue1val">J</strong></div>
+        <p class="muted">Hex-tal: 0x41 er A (65 i decimal), 0x42 er B (66), osv. Find 0x47.</p>
+        <div class="clue-box" id="clue1" style="display:none">F R A G M E N T &nbsp; 1 : &nbsp; <strong id="clue1val">G</strong></div>
         <div class="answer-row">
           <input class="answer-input" id="answer1" maxlength="1" placeholder="?" autocomplete="off" />
           <button class="submit-btn" onclick="checkAnswer(1, event)">Tjek</button>
@@ -436,7 +436,7 @@
       </div>
       <div class="step-body">
         <p>Agenternes radio opfanger dette signal. Dekodér det til ét bogstav.</p>
-        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">· · –</div>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">· – · ·</div>
         <div class="morse-grid">
           <span>A · –</span><span>B – · · ·</span><span>C – · – ·</span><span>D – · ·</span>
           <span>E ·</span><span>F · · – ·</span><span>G – – ·</span><span>H · · · ·</span>
@@ -446,7 +446,7 @@
           <span>U · · –</span><span>V · · · –</span><span>W · – –</span><span>X – · · –</span>
           <span>Y – · – –</span><span>Z – – · ·</span>
         </div>
-        <div class="clue-box" id="clue2" style="display:none">F R A G M E N T &nbsp; 2 : &nbsp; <strong id="clue2val">U</strong></div>
+        <div class="clue-box" id="clue2" style="display:none">F R A G M E N T &nbsp; 2 : &nbsp; <strong id="clue2val">L</strong></div>
         <div class="answer-row">
           <input class="answer-input" id="answer2" maxlength="1" placeholder="?" autocomplete="off" />
           <button class="submit-btn" onclick="checkAnswer(2, event)">Tjek</button>
@@ -464,9 +464,9 @@
       </div>
       <div class="step-body">
         <p>Systemet afventer verifikation af tre tal. Afgør for hvert tal: er det et primtal?</p>
-        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">41  ·  49  ·  53</div>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">37  ·  51  ·  91</div>
         <p class="muted">Primtal: kan kun deles med 1 og sig selv. Tæl dine JA-svar. 1=A, 2=B, 3=C</p>
-        <div class="clue-box" id="clue3" style="display:none">F R A G M E N T &nbsp; 3 : &nbsp; <strong id="clue3val">B</strong></div>
+        <div class="clue-box" id="clue3" style="display:none">F R A G M E N T &nbsp; 3 : &nbsp; <strong id="clue3val">A</strong></div>
         <div class="answer-row">
           <select class="answer-input" id="answer3"><option value="">Vælg...</option><option value="1">1 JA → A</option><option value="2">2 JA → B</option><option value="3">3 JA → C</option></select>
           <button class="submit-btn" onclick="checkAnswer(3, event)">Tjek</button>
@@ -484,9 +484,9 @@
       </div>
       <div class="step-body">
         <p>Den krypterede besked er gemt i binær kode. Oversæt til et bogstav.</p>
-        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0 1 0 0 1 1 0 0</div>
+        <div class="clue-box" style="font-size:1.3rem;letter-spacing:0.35em">0 1 0 0 0 1 0 0</div>
         <p class="muted">Hver bit har en værdi: 128·64·32·16·8·4·2·1. Læg sammen hvor der står 1. A=65, B=66, C=67…</p>
-        <div class="clue-box" id="clue4" style="display:none">F R A G M E N T &nbsp; 4 : &nbsp; <strong id="clue4val">L</strong></div>
+        <div class="clue-box" id="clue4" style="display:none">F R A G M E N T &nbsp; 4 : &nbsp; <strong id="clue4val">D</strong></div>
         <div class="answer-row">
           <input class="answer-input" id="answer4" maxlength="1" placeholder="?" autocomplete="off" />
           <button class="submit-btn" onclick="checkAnswer(4, event)">Tjek</button>
@@ -520,17 +520,17 @@
     </div>
   </div>
 
-  <footer>OPERATION KONFIRMATION // KLASSIFICERET // AGENTUR FOR DIGITAL INFILTRATION</footer>
+  <footer>OPERATION SKYGGEKODE // KLASSIFICERET // AGENTUR FOR DIGITAL INFILTRATION</footer>
 </div>
 
 <!-- Victory overlay -->
 <div id="victory">
   <div class="stamp" style="transform:rotate(2deg)">MISSION FULDFØRT</div>
-  <h2>TILLYKKE, AGENT JULIUS</h2>
+  <h2>TILLYKKE, AGENT JACOB</h2>
   <div class="money">💸</div>
   <p>Du har knækket koden og bevist dit værd.
-Missionen er fuldført — din belønning venter.</p>
-  <p style="color:var(--green);font-size:1.1rem;margin-top:0.5rem">Tillykke med konfirmationen!</p>
+Systemet kunne ikke holde dig — din belønning venter.</p>
+  <p style="color:var(--green);font-size:1.1rem;margin-top:0.5rem">Tillykke med nonkonfirmationen!</p>
   <button class="close-btn" onclick="document.getElementById('victory').classList.remove('show')">[ LUK TERMINAL ]</button>
 </div>
 
@@ -569,12 +569,12 @@ Missionen er fuldført — din belønning venter.</p>
 
   // Puzzle logic
   
-  const ANSWERS = ['J', 'U', '2', 'L'];
+  const ANSWERS = ['G', 'L', '1', 'D'];
   const SUCCESS_MSGS = [
-      'Korrekt! 0x4A = 74 = J. Fragment 1 låst op.',
-      'Korrekt! · · – = U. Fragment 2 låst op.',
-      'Korrekt! 41 er primtal, 49=7×7, 53 er primtal. 2 JA = B.',
-      'Korrekt! 01001100 = 64+8+4 = 76 = L. Fragment 4 låst op.'
+      'Korrekt! 0x47 = 71 = G. Fragment 1 låst op.',
+      'Korrekt! · – · · = L. Fragment 2 låst op.',
+      'Korrekt! 37 er primtal. 51=3×17, 91=7×13. 1 JA = A.',
+      'Korrekt! 01000100 = 64+4 = 68 = D. Fragment 4 låst op.'
   ];
   const FAIL_MSGS = [
       'Forkert. Tjek ASCII-tabellen igen.',
@@ -582,7 +582,7 @@ Missionen er fuldført — din belønning venter.</p>
       'Forkert. Del hvert tal systematisk.',
       'Forkert. Læg bit-værdierne sammen igen.'
   ];
-  const CORRECT_CODE = 'JUBL';
+  const CORRECT_CODE = 'GLAD';
   const CODE_LENGTH = 4;
 
   function checkAnswer(num, e) {
