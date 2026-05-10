@@ -1,0 +1,79 @@
+{
+  "event": {
+    "name": "OPERATION: KONFIRMATION",
+    "type": "konfirmation",
+    "agent": "JULIUS",
+    "stamp": "KLASSIFICERET // KUN FOR AGENTEN",
+    "subtitle": "AGENT JULIUS // ADGANG: KUN JUBILAREN"
+  },
+  "theme": {
+    "primary": "#00ff41",
+    "primaryDim": "#003b00",
+    "background": "#0a0a0a",
+    "accent": "#ff0033"
+  },
+  "intro": [
+    "Tillykke med konfirmationen, Julius.",
+    "Du er nu officielt en del af systemet. Men kan du bevise dit værd?",
+    "Din mission, hvis du vælger at acceptere den:",
+    "Løs de 4 opgaver. Saml fragmenterne.",
+    "Indtast den fulde kode for at frigive din belønning.",
+    "Der er ingen hints. Brug hjernen."
+  ],
+  "puzzles": [
+    {
+      "id": "hex",
+      "title": "KRYPTERET SIGNAL",
+      "description": "En agentrapport er kommet ind i hexadecimalt format. Oversæt dette til et bogstav via ASCII-tabellen nedenfor.",
+      "clue": "0x4A",
+      "answer": "J",
+      "hint": "Hex-tal: 0x41 er A (65 i decimal), 0x42 er B (66), osv. Find 0x4A.",
+      "successMessage": "Korrekt! 0x4A = 74 = J. Fragment 1 låst op.",
+      "failMessage": "Forkert. Tjek ASCII-tabellen igen.",
+      "helperTable": "0x41=A  0x42=B  0x43=C  0x44=D  0x45=E\n0x46=F  0x47=G  0x48=H  0x49=I  0x4A=?\n0x4B=K  0x4C=L  0x4D=M  0x4E=N  0x4F=O\n0x50=P  0x51=Q  0x52=R  0x53=S  0x54=T"
+    },
+    {
+      "id": "morse",
+      "title": "MORSEKODEN SYNGER",
+      "description": "Agenternes radio opfanger dette signal. Dekodér det til ét bogstav.",
+      "clue": "· · –",
+      "answer": "U",
+      "hint": "",
+      "successMessage": "Korrekt! · · – = U. Fragment 2 låst op.",
+      "failMessage": "Forkert. Find signalet i morse-tabellen.",
+      "showMorseTable": true
+    },
+    {
+      "id": "prime",
+      "title": "PRIMTALSTESTEN",
+      "description": "Systemet afventer verifikation af tre tal. Afgør for hvert tal: er det et primtal?",
+      "clue": "41  ·  49  ·  53",
+      "answer": "2",
+      "answerType": "select",
+      "options": ["1 JA → A", "2 JA → B", "3 JA → C"],
+      "hint": "Primtal: kan kun deles med 1 og sig selv. Tæl dine JA-svar. 1=A, 2=B, 3=C",
+      "successMessage": "Korrekt! 41 er primtal, 49=7×7, 53 er primtal. 2 JA = B.",
+      "failMessage": "Forkert. Del hvert tal systematisk.",
+      "fragment": "B"
+    },
+    {
+      "id": "binary",
+      "title": "BINÆR IDENTIFIKATION",
+      "description": "Den krypterede besked er gemt i binær kode. Oversæt til et bogstav.",
+      "clue": "0 1 0 0 1 1 0 0",
+      "answer": "L",
+      "hint": "Hver bit har en værdi: 128·64·32·16·8·4·2·1. Læg sammen hvor der står 1. A=65, B=66, C=67…",
+      "successMessage": "Korrekt! 01001100 = 64+8+4 = 76 = L. Fragment 4 låst op.",
+      "failMessage": "Forkert. Læg bit-værdierne sammen igen."
+    }
+  ],
+  "finalCode": "JUBL",
+  "victory": {
+    "title": "TILLYKKE, AGENT JULIUS",
+    "emoji": "💸",
+    "message": "Du har knækket koden og bevist dit værd.\nMissionen er fuldført — din belønning venter.",
+    "congratulation": "Tillykke med konfirmationen!",
+    "stamp": "MISSION FULDFØRT"
+  },
+  "footer": "OPERATION KONFIRMATION // KLASSIFICERET // AGENTUR FOR DIGITAL INFILTRATION"
+}

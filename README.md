@@ -1,77 +1,66 @@
+# Operation Skyggekode — Monorepo
 
----
+Konfigurerbart agent-tema puzzle-site til fester og arrangementer (konfirmation, nonkonfirmation, fødselsdage, osv.).
 
-## ✨ Om projektet
+## Struktur
 
-**Agentur for Digital Infiltration** er et læringsforløb designet til brug i udskoling og gymnasiale uddannelser. Eleverne træder ind i rollen som digitale agenter og skal løse en række opgaver via deres Micro:bit-enhed.
+```
+├── template.html          # Fælles HTML-template
+├── build.js               # Build-script (Node.js)
+├── events/
+│   ├── jacob/config.json  # Jacobs nonkonfirmation
+│   └── julius/config.json # Julius' konfirmation
+├── MICRO:Bit_kode/        # Micro:bit kode (valgfri fysisk del)
+└── skyggekode_manualer_/  # PDF-manualer til det fysiske forløb
+```
 
-### 🎯 Formål
-- At fremme **computational thinking** og **problem solving**
-- At introducere elever til **sensorprogrammering** og **inputhåndtering**
-- At skabe en narrativ og motiverende kontekst, inspireret af *Keep Talking and Nobody Explodes*
+## Brug
 
----
+### Byg en event-side
 
-## 📦 Hvad indeholder forløbet?
+```bash
+node build.js <event-navn>
+```
 
-- 🕹 **6 modulopgaver** (lys, varme, bevægelse, morsekode, primtal, ledninger)
-- 🧠 En opklaringsmission, hvor elever samler kodefragmenter
-- 🔒 Et afsluttende “disarm the code”-moment
-- 📜 KTANE-inspireret manual til elever
-- ✅ Lærerark med løsninger, facit og hints
-- 💡 Udvidelsesopgaver: Brug Micro:bit som **tastatur/mus** med BLE HID
+Eksempler:
+```bash
+node build.js jacob    # → dist/jacob/index.html
+node build.js julius   # → dist/julius/index.html
+```
 
----
+### Deploy til Coolify
 
-## 🛠️ Krav
+Output er en standalone `index.html` i `dist/<event>/`. Deploy som static site:
 
-| Ressource        | Beskrivelse |
-|------------------|-------------|
-| Micro:bit v2     | Med sensorer og Bluetooth |
-| MakeCode Editor  | https://makecode.microbit.org/ |
-| BLE HID Package  | `bsiever/microbit-pxt-blehid` (valgfri) |
+1. Kør `node build.js <event>`
+2. Deploy `dist/<event>/` som static site på Coolify
 
----
+### Opret nyt arrangement
 
-## 💾 Installation og brug
+1. Opret `events/<navn>/config.json` (kopiér fra en eksisterende)
+2. Tilpas: navn, agent, puzzles, svar, final kode, victory-besked
+3. Kør `node build.js <navn>`
 
-1. **Importer koden:**
-   - Gå til [MakeCode](https://makecode.microbit.org/S29995-80729-00944-81507)
-   - Indsæt koden fra `microbit-code/FINAL_skyggekode.js`, hvis den ikke automatisk bliver indlæst
-   - Overfør til Micro:bit via USB
+## Config-felter
 
-2. **Udskriv elevmaterialer:**
-   - `docs/Operation_SKYGGEKODE_MANUAL_FINAL.pdf`
-   - `docs/ASCII_Morse_Tabel.pdf` som reference
+| Felt | Beskrivelse |
+|------|-------------|
+| `event.name` | Titel øverst på siden |
+| `event.agent` | Agentens navn (jubilaren) |
+| `event.stamp` | Rød stamp-tekst |
+| `intro` | Terminal-linjer i toppen |
+| `puzzles[]` | Array af puzzle-opgaver |
+| `puzzles[].clue` | Det der vises som opgave |
+| `puzzles[].answer` | Korrekt svar (1 tegn eller tal) |
+| `finalCode` | Den samlede kode der skal tastes ind |
+| `victory` | Vinderskærm-indhold |
+| `theme` | Farver (primary, accent, background) |
 
-3. **For lærere:**
-   - Brug `Lærerark_Facit_HINTS.pdf` til at støtte elever undervejs
-   - Tilpas sværhedsgraden med hints, fælles gennemgang eller differentiering
+## Puzzle-typer
 
-4. **Valgfrit:**
-   - Importér `BLE_HID_eksempel.pdf` og brug HID-modulet til tastaturspil
+- **hex**: ASCII hex → bogstav
+- **morse**: Morsekode → bogstav
+- **prime**: Primtalstest → tæl ja-svar → bogstav
+- **binary**: Binær → decimal → ASCII bogstav
 
----
-
-## 🎮 Spil som eleverne kan interagere med (via Micro:bit som tastatur)
-- [Bartender: The Right Mix](https://www.crazygames.com/game/bartender-the-right-mix)
-- [Flappy Bird](https://flappybird.io/)
-- [Slope](https://www.slopegame.com/)
-- [Dino Chrome](https://dino-chrome.com/)
-- [HexGL](https://hexgl.bkcore.com/play/)
-
----
-
-## 👥 Målgruppe
-
-- 8.–10. klasse og gymnasiale forløb
-- Egnet til IT-fag, fysik, matematik, valgfag, innovationsforløb eller emneuger
-
----
-
-## 📘 Credits & Licens
-
-Udviklet af [dit navn] / [skole/organisation].  
-Materialet er open source og udgivet under MIT-licens. Du må tilpasse, dele og bruge det frit i undervisning.
-
-> Tak til elever og undervisere på [eks. Rosborg Gymnasium] for test og feedback.
+Du kan frit mikse, ændre rækkefølge, eller tilføje nye puzzles.
